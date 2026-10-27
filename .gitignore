@@ -1,0 +1,27 @@
+﻿# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Logs and generated reports
+*.log
+results/
+auto_research_results.json
+benchmark_v2_results.json
+benchmark_v3_results.json
+research_cycle_results.json
+research_cycle_v2_results.json
+research_results.json
+
+# Keep separate cryptocurrency experiments out of this portfolio
+al.txt
+cripto*.py
+feex_research.py
+synthetic_crypto_method_lab.py
+synthetic_p2pkh_search_lab.py

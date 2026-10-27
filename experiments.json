@@ -1,0 +1,12 @@
+[
+  {
+    "name": "baseline",
+    "score": 0.75,
+    "notes": "python saves results"
+  },
+  {
+    "name": "candidate",
+    "score": 1.0,
+    "notes": "python saves experiment results"
+  }
+]
