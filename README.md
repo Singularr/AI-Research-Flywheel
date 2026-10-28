@@ -44,7 +44,7 @@ The runner reads tasks from `research_queue.json`. You can add tasks to that JSO
 }
 ```
 
-Add the object to the existing list, preserving valid JSON. Completed task IDs are read from the event log and are not repeated. Stop the runner with **Ctrl+C**. Results are append-only JSONL events, including failed answers and errors.
+Add the object to the existing list, preserving valid JSON. Completed task IDs are read from the event log and are not repeated. Stop the runner with **Ctrl+C**. After three consecutive task errors, the runner pauses/stops instead of retrying forever; check that Ollama is installed, running, and has the configured model before restarting. Results are append-only JSONL events, including failed answers and errors.
 
 ### Important limitations
 
