@@ -1,0 +1,17 @@
+[
+  {
+    "id": "math-add-001",
+    "question": "What is 17 + 25? Return only the number.",
+    "expected": ["42"]
+  },
+  {
+    "id": "python-dict-001",
+    "question": "Which built-in Python type stores key-value pairs? Return only the type name.",
+    "expected": ["dict"]
+  },
+  {
+    "id": "python-floor-001",
+    "question": "What is the result of 15 // 4 in Python? Return only the number.",
+    "expected": ["3"]
+  }
+]
