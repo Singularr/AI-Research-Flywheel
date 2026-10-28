@@ -22,6 +22,7 @@ EVENT_LOG = Path("realtime_events.jsonl")
 STATE_FILE = Path("realtime_state.json")
 POLL_SECONDS = 1.0
 REQUEST_TIMEOUT = 180
+MAX_CONSECUTIVE_ERRORS = 3
 
 
 def utc_now() -> str:
@@ -63,6 +64,7 @@ class RealtimeResearchEngine:
         self.stop_requested = False
         self.completed_ids = self._load_completed_ids()
         self.processed_this_run = 0
+        self.consecutive_errors = 0
 
     @staticmethod
     def _print_event(event: dict[str, Any]) -> None:
@@ -212,10 +214,28 @@ class RealtimeResearchEngine:
                     }
                     self.completed_ids.add(task["id"])
                     self.processed_this_run += 1
+                    self.consecutive_errors = 0
                     self._emit(result)
                 except Exception as exc:
-                    self._emit({"type": "task_error", "task_id": task["id"], "error": f"{type(exc).__name__}: {exc}"})
-                    # Avoid tight retry loops; the task remains pending and can be retried after delay.
+                    self.consecutive_errors += 1
+                    self._emit({
+                        "type": "task_error",
+                        "task_id": task["id"],
+                        "consecutive_errors": self.consecutive_errors,
+                        "error": f"{type(exc).__name__}: {exc}",
+                    })
+                    if self.consecutive_errors >= MAX_CONSECUTIVE_ERRORS:
+                        self._emit({
+                            "type": "engine_paused",
+                            "reason": "consecutive_task_errors",
+                            "message": (
+                                f"Stopped after {MAX_CONSECUTIVE_ERRORS} consecutive task errors. "
+                                "Check Ollama/model availability, then restart the engine."
+                            ),
+                            "task_id": task["id"],
+                        })
+                        break
+                    # The task remains pending, but retries are capped to avoid an endless loop.
                     time.sleep(self.poll_seconds)
                 self._save_state("running")
                 if max_tasks is not None and self.processed_this_run >= max_tasks:
