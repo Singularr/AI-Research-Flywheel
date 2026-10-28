@@ -62,6 +62,26 @@ class TestRealtimeResearchEngine(unittest.TestCase):
         engine.run_forever()
         self.assertFalse(any(event.get("type") == "result" for event in self.events))
 
+    def test_stops_after_three_consecutive_task_errors(self):
+        attempts = []
+
+        def failing_request(payload):
+            attempts.append(payload)
+            raise RuntimeError("Ollama unavailable")
+
+        engine = RealtimeResearchEngine(
+            queue_file=self.queue,
+            event_log=self.log,
+            state_file=self.state,
+            poll_seconds=0.1,
+            event_callback=self.events.append,
+            request_fn=failing_request,
+        )
+        engine.run_forever()
+        self.assertEqual(len(attempts), 3)
+        self.assertTrue(any(event["type"] == "engine_paused" for event in self.events))
+        self.assertEqual(json.loads(self.state.read_text(encoding="utf-8"))["status"], "stopped")
+
     def test_streamed_payload_enabled(self):
         captured = {}
         def fake(payload):
