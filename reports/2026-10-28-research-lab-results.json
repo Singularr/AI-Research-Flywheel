@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "research_lab_v5_4_3": {
+    "benchmark_type": "project-authored internal benchmark",
+    "tasks": 30,
+    "cases": 130,
+    "initial_tasks_passed": 27,
+    "final_tasks_passed": 30,
+    "initial_cases_passed": 121,
+    "final_cases_passed": 130,
+    "holdout_cases": 60,
+    "initial_holdout_passed": 55,
+    "final_holdout_passed": 60,
+    "ollama_requests": 34,
+    "elapsed_seconds": 111.4,
+    "independent_blind_test": false
+  },
+  "research_lab_v5_5_1": {
+    "benchmark_type": "project-authored Independent Generalization Suite v1.1",
+    "tasks": 20,
+    "cases": 80,
+    "initial_tasks_passed": 18,
+    "final_tasks_passed": 20,
+    "initial_cases_passed": 72,
+    "final_cases_passed": 80,
+    "holdout_cases": 40,
+    "initial_holdout_passed": 36,
+    "final_holdout_passed": 40,
+    "ollama_requests": 22,
+    "elapsed_seconds": 80.8,
+    "final_case_runtime_errors": 0,
+    "independent_blind_test": false
+  },
+  "scienceagentbench_pilot": {
+    "dataset": "osunlp/ScienceAgentBench",
+    "split": "verified",
+    "split_tasks": 102,
+    "model": "qwen2.5-coder:7b",
+    "generated_programs": 3,
+    "generation_seconds": 23.8,
+    "programs_executed": false,
+    "official_score_calculated": false,
+    "static_syntax_checks_passed": 3,
+    "trace_records": 3,
+    "official_artifacts_available_locally": false,
+    "official_evaluation_status": "blocked_missing_verified_benchmark_artifacts"
+  },
+  "interpretation": {
+    "internal_benchmarks_are_not_official_scienceagentbench_scores": true,
+    "holdout_is_not_fresh_independent_validation": true,
+    "ast_parse_does_not_prove_functional_correctness": true
+  }
+}
